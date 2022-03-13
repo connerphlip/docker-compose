@@ -1,0 +1,10 @@
+version: "3"
+services:
+  mrdoc:
+    image: connerphlip/mrdoc:0.0.1
+    restart: always
+    ports:
+      - "10086:10086"
+    volumes:
+      - ./mrdoc:/app/MrDoc
+    container_name: mrdoc

@@ -1,0 +1,79 @@
+version: "2.2"
+networks:
+  internal_network:
+services:
+  mysql:
+    restart: always
+    networks:
+      - internal_network
+    #network_mode: bridge
+    image: connerphlip/mysql:0.0.1
+    environment:
+      - MYSQL_ROOT_PASSWORD=cgh258741
+    volumes:
+      - ./dzzoffice/mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+  phpmyadmin:
+    restart: always
+    #network_mode: bridge
+    image: connerphlip/phpmyadmin:0.0.1
+    links:
+      - "mysql"
+    environment:
+      - PMA_HOST=mysql
+    volumes:
+      - ./dzzoffice/mysql:/var/lib/mysql
+    expose:
+      - "80"
+    ports:
+      - "1801:80"
+  dzzoffice:
+    restart: always
+    networks:
+      - internal_network
+    #network_mode: bridge
+    image: connerphlip/dzzoffice:0.0.1
+    links:
+      - "mysql"
+    ports:
+      - "1800:80"
+  onlyoffice:
+    image: connerphlip/documentserver:0.0.1
+    restart: always
+    networks:
+      - internal_network
+    #network_mode: bridge
+    ports:
+      - "8000:80"
+  collabora:
+    image: connerphlip/collabora:0.0.1
+    restart: always
+    networks:
+      - internal_network
+    #network_mode: bridge
+    ports:
+      - "9980:9980"
+    environment:
+      - username=root
+      - password=cgh258741
+
+
+#docker cp dzz.tar.gz dzzoffice-master_dzzoffice_1:/var/www/html
+#docker exec -it dzzoffice-master_dzzoffice_1 bash
+#tar -zxvf dzz.tar.gz
+
+#OnlyOffice Document Server API地址:
+#/web-apps/apps/api/documents/api.js
+#文件服务器(dzzoffice服务器)地址:
+#http://dzzoffice/
+
+#unset ${!DOCKER_*}
+#sudo docker-compose up -d
+#sudo docker-compose down
+
+#防火墙
+#[root@liang ~]# firewall-cmd --zone=public --add-port=1800/tcp --permanent
+#[root@liang ~]# firewall-cmd --reload
+#文件存放地址
+#/var/www/html/data/attachment/dzz/
