@@ -10,18 +10,12 @@ services:
     ports:
       - "3307:3306"
   phpmyadmin:
+    image: phpmyadmin
     restart: always
-    image: connerphlip/phpmyadmin:0.0.1
-    links:
-      - "mysql"
-    environment:
-      - PMA_HOST=mysql
-    volumes:
-      - ./dzzoffice/mysql:/var/lib/mysql
-    expose:
-      - "80"
     ports:
-      - "1801:80"
+      - 1801:80
+    environment:
+      - PMA_ARBITRARY=1
   dzzoffice:
     restart: always
     image: connerphlip/dzzoffice:0.0.1
