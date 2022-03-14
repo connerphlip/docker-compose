@@ -15,7 +15,8 @@ services:
     ports:
       - 1801:80
     environment:
-      - PMA_ARBITRARY=1
+       PMA_HOST = dzzoffice-mysql-1-
+      
   dzzoffice:
     restart: always
     image: connerphlip/dzzoffice:0.0.1
