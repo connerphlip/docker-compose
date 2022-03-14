@@ -1,12 +1,7 @@
 version: "2.2"
-networks:
-  internal_network:
 services:
   mysql:
     restart: always
-    networks:
-      - internal_network
-    #network_mode: bridge
     image: connerphlip/mysql:0.0.1
     environment:
       - MYSQL_ROOT_PASSWORD=cgh258741
@@ -16,7 +11,6 @@ services:
       - "3307:3306"
   phpmyadmin:
     restart: always
-    #network_mode: bridge
     image: connerphlip/phpmyadmin:0.0.1
     links:
       - "mysql"
@@ -30,9 +24,6 @@ services:
       - "1801:80"
   dzzoffice:
     restart: always
-    networks:
-      - internal_network
-    #network_mode: bridge
     image: connerphlip/dzzoffice:0.0.1
     links:
       - "mysql"
@@ -41,17 +32,11 @@ services:
   onlyoffice:
     image: connerphlip/documentserver:0.0.1
     restart: always
-    networks:
-      - internal_network
-    #network_mode: bridge
     ports:
       - "8000:80"
   collabora:
     image: connerphlip/collabora:0.0.1
     restart: always
-    networks:
-      - internal_network
-    #network_mode: bridge
     ports:
       - "9980:9980"
     environment:
